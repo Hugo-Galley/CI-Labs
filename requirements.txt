@@ -1,0 +1,6 @@
+requests>=2.31.0
+Flask>=2.3.0
+PyYAML>=6.0
+
+# Optional audit tool for CI: pip-audit (can be installed into CI runner environment)
+pip-audit>=2.2.0
