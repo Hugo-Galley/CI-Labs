@@ -37,13 +37,24 @@ jobs:
             - name: Run tests with coverage
               run: |
                 pytest --cov=Phantom --cov-report=xml
-                
+
+            - name: Debug show working dir and coverage file
+              run: |
+                echo "PWD: $(pwd)"
+                echo "Listing current folder:" 
+                ls -la
+                echo "Listing Phantom folder:" 
+                ls -la Phantom || true
+                echo "Coverage.xml head:" 
+                head -n 80 coverage.xml || true
+
             - name: SonarCloud Analysis
               uses: SonarSource/sonarcloud-github-action@v2
               with:
                 projectBaseDir: .
                 args: >
                   -Dsonar.python.coverage.reportPaths=BackEnd/coverage.xml
+                  -Dsonar.sources=BackEnd/Phantom
                   -Dsonar.verbose=true
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
