@@ -41,7 +41,7 @@ jobs:
             - name: SonarCloud Analysis
               uses: SonarSource/sonarcloud-github-action@v2
               with:
-                projectBaseDir: BackEnd
+                projectBaseDir: .
                 args: >
                   -Dsonar.python.coverage.reportPaths=BackEnd/coverage.xml
                   -Dsonar.verbose=true
