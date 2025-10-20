@@ -44,7 +44,6 @@ jobs:
                 projectBaseDir: BackEnd
                 args: >
                   -Dsonar.python.coverage.reportPaths=BackEnd/coverage.xml
-                  -Dsonar.sources=BackEnd/Phantom
                   -Dsonar.verbose=true
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
