@@ -48,18 +48,18 @@ jobs:
                 echo "Coverage.xml head:" 
                 head -n 80 coverage.xml || true
 
-            - name: Normalize coverage.xml sources
-              run: |
-                echo "Normalizing coverage.xml sources (remove absolute workspace prefix if present)"
-                echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
-                if grep -q "$GITHUB_WORKSPACE" coverage.xml; then
-                  sed -i "s|$GITHUB_WORKSPACE/||g" coverage.xml || true
-                  echo "Normalized coverage.xml"
-                  echo "New coverage.xml head:"
-                  head -n 40 coverage.xml || true
-                else
-                  echo "No GITHUB_WORKSPACE prefix found in coverage.xml"
-                fi
+            # - name: Normalize coverage.xml sources
+            #   run: |
+            #     echo "Normalizing coverage.xml sources (remove absolute workspace prefix if present)"
+            #     echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
+            #     if grep -q "$GITHUB_WORKSPACE" coverage.xml; then
+            #       sed -i "s|$GITHUB_WORKSPACE/||g" coverage.xml || true
+            #       echo "Normalized coverage.xml"
+            #       echo "New coverage.xml head:"
+            #       head -n 40 coverage.xml || true
+            #     else
+            #       echo "No GITHUB_WORKSPACE prefix found in coverage.xml"
+            #     fi
 
             - name: SonarCloud Analysis
               uses: SonarSource/sonarcloud-github-action@v2
