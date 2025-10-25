@@ -1,64 +1,63 @@
-name : Phantom
-on : 
-    pull_request:
-        branches:
-            - main
+name: Phantom
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
-    CodeAnalysis:
-        runs-on: "ubuntu-latest"
-        defaults:
-          run:
-            working-directory: BackEnd
-        steps:
-            - uses: actions/checkout@v4
-              with:
-                fetch-depth: 0
-
-            - name: Set Up Python env
-              uses: actions/setup-python@v4
-              with:
-                python-version: "3.11"
-
-            - name: Setup JDK 17
-              uses: actions/setup-java@v4
-              with:
-                distribution: 'temurin'
-                java-version: '17'
-
-            - name: Install tests dependencys
-              run: |
-                python -m pip install --upgrade pip
-                pip install -r requirements.txt
-                pip install pytest pytest-cov
-
-            - name: flake8 lint
-              uses: py-actions/flake8@v2
-
-            - name: Scan dependencies with Trivy
-              uses: aquasecurity/trivy-action@master
-              with:
-                scan-type: fs
-                scan-ref: '.'
-                severity: HIGH,CRITICAL
-                ignore-unfixed: true
-                exit-code: 1
-            
-            - name: Run tests with coverage
-              run: |
-                pytest --cov=Phantom --cov-report=xml
-            - name: Normalize coverage.xml sources
-              run: |
-                if grep -q "$GITHUB_WORKSPACE" coverage.xml; then
-                  sed -i "s|$GITHUB_WORKSPACE/||g" coverage.xml || true
-                  head -n 40 coverage.xml || true
-                fi
-            - name: SonarCloud Analysis
-              uses: SonarSource/sonarcloud-github-action@v2
-              with:
-                projectBaseDir: .
-                args: >
-                  -Dsonar.python.coverage.reportPaths=BackEnd/coverage.xml
-                  -Dsonar.verbose=true
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  CodeAnalysis:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: BackEnd
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set Up Python env
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+      - name: Install tests dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+      - name: flake8 lint
+        uses: py-actions/flake8@v2
+      - name: Scan dependencies with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: '.'
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: 1
+      - name: Run tests with coverage
+        run: |
+          pytest --cov=Phantom --cov-report=xml
+      - name: Normalize coverage.xml sources
+        run: |
+          if grep -q "$GITHUB_WORKSPACE" coverage.xml; then
+            sed -i "s|$GITHUB_WORKSPACE/||g" coverage.xml || true
+            head -n 40 coverage.xml || true
+          fi
+      - name: SonarCloud Analysis
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          projectBaseDir: .
+          args: >
+            -Dsonar.python.coverage.reportPaths=BackEnd/coverage.xml
+            -Dsonar.verbose=true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
