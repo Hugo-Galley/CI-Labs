@@ -54,7 +54,7 @@ def gcd(a: int, b: int) -> int:
     a, b = abs(a), abs(b)
     while b:
         # Encore
-        # J'ajoute un commentaire de test
+        # J'ajoute un commentaire de test 2
         a, b = b, a % b
     return a
 
