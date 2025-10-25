@@ -1,6 +1,6 @@
 name : Phantom
 on : 
-    push:
+    pull_request:
         branches:
             - main
 jobs:
