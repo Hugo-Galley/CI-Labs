@@ -53,6 +53,7 @@ def gcd(a: int, b: int) -> int:
     """Return the greatest common divisor using Euclidean algorithm."""
     a, b = abs(a), abs(b)
     while b:
+        # J'ajoute un commentaire
         a, b = b, a % b
     return a
 
