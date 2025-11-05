@@ -1,0 +1,32 @@
+name: PublishR elease
+
+on:
+    push:
+        tags:
+            - "v*.*.*"
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up Qemu
+              uses: docker/setup-qemu-action@v3
+
+            - name: Login to Github Container Registery
+              uses: docker/login-action@v3
+              with:
+                registry: ghcr.io
+                username: ${{ github.actor }}
+                password: ${{ secrets.GHCR_TOKEN }}
+
+            - name: Build en push image
+              uses: docker/build-push-action@v6
+              with:
+                context: .
+                push: true
+                tags:
+                    ghcr.io/${{ github.repository_owner }}/ci-labs:latest
+                    ghcr.io/${{ github.repository_owner }}/ci-labs:${{ github.release.tag_name }}
