@@ -26,7 +26,7 @@ jobs:
                 username: ${{ github.actor }}
                 # use the automatically-provided GITHUB_TOKEN (requires permissions: packages: write)
                 password: ${{ secrets.GITHUB_TOKEN }}
-
+                
             - name: Convert owner to lowercase
               id: owner
               run: echo "value=${OWNER,,}" >> "$GITHUB_OUTPUT"
@@ -41,3 +41,6 @@ jobs:
                 tags: |
                   ghcr.io/${{ steps.owner.outputs.value }}/ci-labs:latest
                   ghcr.io/${{ steps.owner.outputs.value }}/ci-labs:${{ github.ref_name }}
+                annotations: |
+                  org.opencontainers.image.description="A test label Anotations"
+
