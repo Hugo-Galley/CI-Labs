@@ -52,6 +52,13 @@ jobs:
             sed -i "s|$GITHUB_WORKSPACE/||g" coverage.xml || true
             head -n 40 coverage.xml || true
           fi
+      - name: Initialize Code QL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: python
+      
+      - name: CodeQl Analysys
+        uses: github/codeql-action/analyze@v3
       - name: SonarCloud Analysis
         uses: SonarSource/sonarcloud-github-action@v2
         with:
