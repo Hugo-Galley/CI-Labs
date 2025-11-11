@@ -44,7 +44,7 @@ jobs:
           ignore-unfixed: true
           exit-code: 1
       - name: Run test
-        uses: ./pytest-for-sonar
+        uses: ./.github/actions/pytest-for-sonar
         with:
           module: Backend
       - name: SonarCloud Analysis
