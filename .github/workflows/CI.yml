@@ -76,9 +76,11 @@ jobs:
         id: changed-file
         uses: tj-actions/changed-files@v46.0.1
         with:
+          files: |
+            Backend/**
           separator: ','
       - name: Vorpal with review Dog
-        if: ${{ steps.changed-files.outputs.all_changed_files != '' }} 
+        if: ${{ steps.changed-files.outputs.any_changed == 'true' }} 
         uses: checkmarx/vorpal-reviewdog-github-action@v1.0.0
         with:
           source_path: "${{ steps.changed-files.outputs.all_changed_files }}"
