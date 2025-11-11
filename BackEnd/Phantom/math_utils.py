@@ -25,7 +25,6 @@ def divide(a: Number, b: Number) -> float:
 
 def say_hello():
     """Super fonction d'affichage"""
-    """Encore un affichage"""
     return "hello world"
 
 

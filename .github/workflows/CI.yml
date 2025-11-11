@@ -73,7 +73,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Get Changed File
-        id: changed-file
+        id: changed-files
         uses: tj-actions/changed-files@v46.0.1
         with:
           files: |
