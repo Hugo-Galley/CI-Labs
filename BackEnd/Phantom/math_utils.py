@@ -23,6 +23,10 @@ def divide(a: Number, b: Number) -> float:
     return a / b
 
 
+def say_hello():
+    return "hello world"
+
+
 def is_prime(n: int) -> bool:
     """Return True if n is a prime number (n >= 2)."""
     if n < 2:
