@@ -62,3 +62,29 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  SecurityAnalysis:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: BackEnd
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get Changed File
+        id: changed-file
+        uses: tj-actions/changed-files@v46.0.1
+        with:
+          separator: ','
+      - name: Vorpal with review Dog
+        if: ${{ steps.changed-files.outputs.all_changed_files != '' }} 
+        uses: checkmarx/vorpal-reviewdog-github-action@v1.0.0
+        with:
+          source_path: "${{ steps.changed-files.outputs.all_changed_files }}"
+          filter_mode: file
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-check
+          level: error
+          fail_on_error: false
+
