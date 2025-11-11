@@ -43,10 +43,15 @@ jobs:
           severity: HIGH,CRITICAL
           ignore-unfixed: true
           exit-code: 1
-      - name: Run test
-        uses: ./.github/actions/pytest-for-sonar
-        with:
-          module: Phantom
+      - name: Run tests with coverage
+        run: |
+          pytest --cov=Phantom --cov-report=xml
+      - name: Normalize coverage.xml sources
+        run: |
+          if grep -q "$GITHUB_WORKSPACE" coverage.xml; then
+            sed -i "s|$GITHUB_WORKSPACE/||g" coverage.xml || true
+            head -n 40 coverage.xml || true
+          fi
       - name: SonarCloud Analysis
         uses: SonarSource/sonarcloud-github-action@v2
         with:
