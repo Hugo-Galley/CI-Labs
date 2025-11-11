@@ -43,15 +43,10 @@ jobs:
           severity: HIGH,CRITICAL
           ignore-unfixed: true
           exit-code: 1
-      - name: Run tests with coverage
-        run: |
-          pytest --cov=Phantom --cov-report=xml
-      - name: Normalize coverage.xml sources
-        run: |
-          if grep -q "$GITHUB_WORKSPACE" coverage.xml; then
-            sed -i "s|$GITHUB_WORKSPACE/||g" coverage.xml || true
-            head -n 40 coverage.xml || true
-          fi
+      - name: Run test
+        uses: ./pytest-for-sonar
+        with:
+          module: Backend
       - name: SonarCloud Analysis
         uses: SonarSource/sonarcloud-github-action@v2
         with:
@@ -78,7 +73,7 @@ jobs:
         with:
           separator: ','
       - name: Vorpal with review Dog
-        if: ${{ steps.changed-files.outputs.all_changed_files != '' }} 
+        # if: ${{ steps.changed-files.outputs.all_changed_files != '' }} 
         uses: checkmarx/vorpal-reviewdog-github-action@v1.0.0
         with:
           source_path: "${{ steps.changed-files.outputs.all_changed_files }}"
