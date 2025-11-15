@@ -1,7 +1,7 @@
 import json
 import os
 
-with open("BackEnd/variables.json") as f:
+with open("BackEnd/variables.json", "r") as f:
     data = json.load(f)
 
 data["Log"]["FileDestination"] = os.environ["FILE_DESTINATION"]
