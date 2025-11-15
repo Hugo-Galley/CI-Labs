@@ -1,0 +1,12 @@
+{
+    "Log":{
+        "FileDestination": ""
+    },
+    "Bdd":{
+        "Host": "",
+        "Database": "",
+        "User": "",
+        "Password": "",
+        "Port": ""
+    }
+}

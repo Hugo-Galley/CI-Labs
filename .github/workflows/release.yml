@@ -1,4 +1,4 @@
-name: PublishR elease
+name: Publish Release
 
 on:
   push:
