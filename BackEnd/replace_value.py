@@ -12,4 +12,4 @@ data["Bdd"]["Password"] = os.environ["BDD_PASSWORD"]
 data["Bdd"]["Port"] = os.environ["BDD_PORT"]
 
 with open("variables.json", "w") as f:
-    json.dump(data, indent=4)
+    json.dump(data, f, indent=4)
